@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    <title>teach-lab</title>
+</head>
+<div class="image-overlay" id="imageOverlay">
+    <span class="close-btn" onclick="closeImage()">✖</span>
+    <img src="" id="overlayImage" alt="">
+</div>
+
+<body>
+    {% include 'base/header.html' %}
+
+    <main>
+        <div class="adress">
+            <h4><a href="{% url 'main' %}" style="text-decoration: none; color: white">Главная</a> > {{ product.name }}</h4>
+        </div>
+        <div class="product" data-product-id="{{ product.id }}">
+            <div class="product__img">
+                <img src="{{ product.image1.url }}" alt="" class="product__img__main">
+                <div class="product__img__nomain">
+                    <img src="{{ product.image2.url }}" alt="">
+                    <img src="{{ product.image3.url }}" alt="">
+                    <img src="{{ product.image4.url }}" alt="">
+                </div>
+                <button>{{ product.price }} ₽</button>
+            </div>
+            <div class="product__about">
+                <h3>{{ product.name }}:</h3>
+                <h4>{{ product.description|safe }}</h4>
+
+                <div class="product__about__button">
+                    {% if product.price > 0 %}
+                        <button>В корзину</button>
+                        <a href="{% url 'buy_product' product.id %}" style="text-decoration: none; color: black" id="buy_product"><button>Купить</button></a>
+                    {% else %}
+                        <a href="{{ product.file.url }}" download style="text-decoration: none; color: black"><button>Скачать</button></a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="product__description">
+                <h3>Описание</h3>
+                <div class="product__description__line"></div>
+                {% if product.number_pages %}
+                    <div class="product__description__value">
+                        <h3>Количество страниц</h3>
+                        <h4>{{ product.number_pages }}</h4>
+                    </div>
+                {% endif %}
+                {% if product.pages %}
+                    <div class="product__description__value">
+                        <h3>страниц</h3>
+                        <h4>{{ product.pages }}</h4>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="product__rec">
+                <div class="product__arrow">
+                    <h3>Может быть интересно</h3>
+                    <img id="arrow_left" src="{% static 'img/arrow_left.png' %}" alt="">
+                    <img id="arrow_right" src="{% static 'img/arrow_right.png' %}" alt="">
+                </div>
+                <div class="swiper product__container">
+                   <div class="swiper-wrapper">
+                        {% for random_product in random_products %}
+                            <div class="swiper-slide product_product" data-product-id="{{ random_product.id }}">
+                                <div class="product__recomend">
+                                    <a href="{% url 'product' random_product.id %}"><img src="{{ random_product.image1.url }}" alt=""></a>
+                                    <a href="{% url 'product' random_product.id %}">{{ random_product.name }}</a>
+                                    <p>{{ random_product.price }} ₽</p>
+                                </div>
+                                <div class="product__recomend__button">
+                                    {% if random_product.price > 0 %}
+                                        <button class="product__recomend__button__click"><img src="{% static 'img/basketW.png' %}" alt="" width="30"></button>
+                                        <a href="{% url 'buy_product' random_product.id %}" style="text-decoration: none; color: black" id="buy_product"><button>Купить</button></a>
+                                    {% else %}
+                                        <a href="{{ random_product.file.url }}" download style="text-decoration: none; color: black"><button>Скачать</button></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                   </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+<script>
+    document.querySelectorAll('.catalog__product__img, .product__img__main, .product__img__nomain img').forEach(img => {
+        img.addEventListener('click', function() {
+            document.getElementById('overlayImage').src = this.src;
+            document.getElementById('imageOverlay').classList.add('active');
+        });
+    });
+
+    function closeImage() {
+        document.getElementById('imageOverlay').classList.remove('active');
+    }
+
+    document.getElementById('imageOverlay').addEventListener('click', function(event) {
+        if (event.target === this) closeImage();
+    });
+</script>
+
+    {% include 'base/dialog.html' %}
+    {% include 'base/footer.html' %}
+</body>
+</html>

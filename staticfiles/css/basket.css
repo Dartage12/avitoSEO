@@ -1,0 +1,183 @@
+:root {
+    --orange: #F2A879;
+    --body: #EED6C5;
+    --silver: #808080;
+    --silver2: #766F6F;
+}
+.adress {
+    display: flex;
+    margin-top: 50px;
+}
+.adress h4 {
+    color: white;
+    font-size: 24px;
+    font-family: "M PLUS Rounded 1c", serif;
+    font-weight: 400;
+        word-wrap: break-word;
+    white-space: normal;
+    max-width: 90vw;
+}
+.basket {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+.basket h3 {
+    font-size: 48px;
+    color: var(--orange);
+}
+.basket__tovar {
+    display: flex;
+    flex-direction: column;
+}
+.basket__tovar h5 {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    font-size: 36px;
+    color: var(--silver2);
+}
+.basket__tovar button {
+    display: flex;
+    margin: 55px auto;
+    margin-top: 55px;
+    font-size: 32px;
+    color: var(--orange);
+    background: white;
+    border-radius: 45px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border: none;
+    width: max-content;
+}
+.basket__tovar__all {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 37px;
+    height: max-content;
+    padding: 30px;
+}
+.basket__tovar__all__tovar {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--orange);
+    margin-top: 30px;
+}
+.basket__tovar__all__tovar__main {
+    display: flex;
+    flex-direction: row;
+}
+.basket__tovar__all__tovar__img {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+    align-items: center;
+}
+.basket__tovar__all__tovar__img__success {
+    width: 50px;
+    height: 50px;
+}
+.basket__tovar__all__tovar__img__tovar {
+    width: 200px;
+    height: 200px;
+}
+.basket__tovar__all__tovar__text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 45px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    max-width: 100%; /* Ограничение по ширине */
+    flex: 1; /* Занимает доступное пространство */
+    min-width: 0; /* Позволяет тексту переноситься */
+}
+.basket__tovar__all__tovar__text h3 {
+    font-size: 32px;
+    color: black;
+}
+
+.basket__tovar__all__tovar__text p {
+    font-size: 40px;
+    color: black;
+    margin-top: 30px;
+}
+.basket__tovar__all__tovar__text h3,
+.basket__tovar__all__tovar__text p {
+    word-wrap: break-word; /* Перенос длинных слов */
+    overflow-wrap: break-word; /* Альтернатива для word-wrap */
+    white-space: normal; /* Разрешает перенос текста */
+    word-break: break-word; /* Переносит длинные слова */
+}
+.basket__tovar__all__tovar__button {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    align-items: center;
+    margin-left: 80px;
+}
+.basket__tovar__all__tovar__button img {
+    width: 50px;
+    height: 50px;
+}
+.basket__tovar__all__tovar__button button {
+    background: var(--orange);
+    color: black;
+    padding-left: 45px;
+    padding-right: 45px;
+    font-size: 24px;
+    margin: 0 0;
+    margin-left: 10px;
+}
+.basket__tovar__all__buy {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 50px;
+
+}
+.basket__tovar__all__buy h3 {
+    font-size: 40px;
+    color: black;
+}
+.basket__tovar__all__buy button {
+    background: var(--orange);
+    color: black;
+    padding-left: 45px;
+    padding-right: 45px;
+    font-size: 24px;
+    margin: 0 0;
+}
+
+.basket__tovar__all__form {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.basket__tovar__all__form input {
+    background: white;
+    color: black;
+    border-radius: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 50px;
+    border: none;
+    border-bottom: 1px solid var(--orange);
+}
+@media screen and (max-width: 560px) {
+    .basket__tovar__all__tovar__main {
+        display: flex;
+        flex-direction: column;
+    }
+    .basket__tovar__all__buy {
+        display: flex;
+        flex-direction: column;
+    }
+    .basket__tovar__all__buy button {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

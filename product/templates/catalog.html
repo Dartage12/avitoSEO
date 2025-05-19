@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/catalog.css' %}">
+    <title>teach-lab</title>
+</head>
+<body>
+    {% include 'base/header.html' %}
+
+    <main>
+        <div class="adress">
+            {% if category_name %}
+                <h4><a href="{% url 'main' %}" style="text-decoration: none; color: white">Главная</a> > {{ category_name }}</h4>
+            {% else %}
+                <h4><a href="{% url 'main' %}" style="text-decoration: none; color: white">Главная</a> > Все разработки</h4>
+            {% endif %}
+        </div>
+        <div class="catalog">
+            {% if category_name %}
+            	<h3>{{ category_name }}</h3>
+            {% else %}
+                <h3>Все разработки</h3>
+            {% endif %}
+
+            <p>Наглядный материал, вклейки, раздаточный материал, рабочие листы, самостоятельные работы</p>
+            <select id="sortSelect">
+                <option value="">Сортировать <img src="{% static 'img/arrow_down.png' %}" alt=""></option>
+                <option value="min_price">Мин. цена</option>
+                <option value="max_price">Макс. цена</option>
+                <option value="newest">Новые</option>
+                <option value="oldest">Старые</option>
+            </select>
+            <div class="catalog__filter">
+                <form id="filterForm" method="get">
+                    <input type="search" id="searchInput" placeholder="Поиск" class="catalog__filter__search">
+                    <div class="catalog__filter__line"></div>
+                    <div class="catalog__filter__input">
+                        <div class="catalog__filter__input__class">
+                            <label for="class">Класс</label>
+                            <input type="text" id="classInput" name="class">
+                        </div>
+                        <div class="catalog__filter__input__class">
+                            <label for="subject">Предмет</label>
+                            <input type="text" id="subjectInput" name="subject">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="catalog__all">
+                {% for product in products %}
+                    <div class="catalog__all__tovar" data-product-id="{{ product.id }}">
+                        <div class="catalog__all__tovar__about">
+                            <div class="catalog__all__tovar__img">
+                                <img class="arrow_left" src="{% static 'img/arrow_left.png' %}" alt="" width="50px" height="50px">
+                                <div class="swiper catalog__all__tovar__img__img">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <a href="{% url 'product' product.id %}"><img src="{{ product.image1.url }}" alt="" class="catalog__product__img"></a>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <a href="{% url 'product' product.id %}"><img src="{{ product.image2.url }}" alt="" class="catalog__product__img"></a>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <a href="{% url 'product' product.id %}"><img src="{{ product.image3.url }}" alt="" class="catalog__product__img"></a>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <a href="{% url 'product' product.id %}"><img src="{{ product.image4.url }}" alt="" class="catalog__product__img"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img class="arrow_right" src="{% static 'img/arrow_right.png' %}" alt="" width="50px" height="50px">
+                            </div>
+                            <div class="catalog__all__tovar__text">
+                                <a href="{% url 'product' product.id %}">{{ product.name }}</a>
+{#                                <p>{{ product.description|safe }}</p>#}
+                            </div>
+                        </div>
+                        <div class="catalog__all__tovar__button">
+                            <p style="display: none">{{ product.price }}</p>
+                            <button>{{ product.price }} ₽</button>
+                            {% if product.price > 0 %}
+                                <button class="in_basket"><img src="{% static 'img/basketW.png' %}" alt="" width="30px"> В корзину</button>
+                                <a href="{% url 'buy_product' product.id %}" style="text-decoration: none; color: black" id="buy_product"><button>Купить</button></a>
+                            {% else %}
+                                <a href="{{ product.file.url }}" download style="text-decoration: none; color: black"><button>Скачать</button></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="catalog__paginator">
+                {% if products.has_previous %}
+                    <div>
+                        <a href="?page=1"><button class="catalog__paginator__off">Первая</button></a>
+                    </div>
+                    <div>
+                        <a href="?page={{ products.previous_page_number }}"><button class="catalog__paginator__off">Назад</button></a>
+                    </div>
+                {% endif %}
+
+                {% for page in products.paginator.page_range %}
+                    {% if page >= products.number|add:"-1" and page <= products.number|add:"1" %}
+                        {% if products.number == page %}
+                            <div>
+                                <button class="catalog__paginator__active">{{ page }}</button>
+                            </div>
+                        {% else %}
+                            <div>
+                                <a href="?page={{ page }}"><button class="catalog__paginator__off">{{ page }}</button></a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if products.has_next %}
+                    <div>
+                        <a href="?page={{ products.next_page_number }}"><button class="catalog__paginator__off">Вперёд</button></a>
+                    </div>
+                    <div>
+                        <a href="?page={{ products.paginator.num_pages }}"><button class="catalog__paginator__off">Последняя</button></a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    {% include 'base/dialog.html' %}
+    {% include 'base/footer.html' %}
+    <script>
+        $(document).ready(function() {
+
+            function initSwipers() {
+                document.querySelectorAll(".catalog__all__tovar").forEach((tovar) => {
+                    const swiperContainer = tovar.querySelector(".swiper");
+                    const prevButton = tovar.querySelector(".arrow_left");
+                    const nextButton = tovar.querySelector(".arrow_right");
+
+                    if (swiperContainer && prevButton && nextButton) {
+                        // Уничтожаем существующий Swiper, если он есть
+                        if (swiperContainer.swiper) {
+                            swiperContainer.swiper.destroy();
+                        }
+
+                        // Инициализируем новый Swiper
+                        new Swiper(swiperContainer, {
+                            slidesPerView: 1,
+                            spaceBetween: 10,
+                            loop: true,
+                            navigation: {
+                                nextEl: nextButton,
+                                prevEl: prevButton,
+                            },
+                        });
+                    }
+                });
+            }
+
+            function applyFilters() {
+                const searchQuery = $('#searchInput').val();
+                const classQuery = $('#classInput').val();
+                const subjectQuery = $('#subjectInput').val();
+                const sortQuery = $('#sortSelect').val(); // Получаем значение сортировки
+
+                $.ajax({
+                    url: '{% url "catalog" %}',
+                    type: 'GET',
+                    data: {
+                        'search': searchQuery,
+                        'class': classQuery,
+                        'subject': subjectQuery,
+                        'sort': sortQuery // Добавляем параметр сортировки
+                    },
+                    success: function(response) {
+                        $('.catalog__all').html($(response).find('.catalog__all').html());
+                        $('.catalog__paginator').html($(response).find('.catalog__paginator').html());
+
+                        // Повторно инициализируем Swiper после обновления контента
+                        initSwipers();
+                    }
+                });
+            }
+
+            // Обработчики событий для фильтров и сортировки
+            $('#searchInput, #classInput, #subjectInput').on('input', function() {
+                applyFilters();
+            });
+
+            $('#sortSelect').on('change', function() {
+                applyFilters();
+            });
+
+            // Инициализация Swiper при загрузке страницы
+            initSwipers();
+        });
+    </script>
+
+
+</body>
+</html>

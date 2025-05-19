@@ -1,0 +1,43 @@
+{% load static %}
+<footer>
+    <style>
+footer {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.footer__logo {
+    position: relative;
+    width: max-content;
+    top: 80px;
+}
+
+.footer__logo a {
+    display: inline-block;
+    width: max-content;
+}
+
+.footer__logo img {
+    height: 50px;
+}
+
+    </style>
+    <a href="{% url 'main' %}">
+        <img src="{% static 'img/logo.ico' %}" alt="" class="footer__logo">
+    </a>
+    <div class="footer__page">
+        <a href="{% url 'catalog' %}">Все разработки</a>
+{#        <a href="#">Личный кабинет</a>#}
+        <a href="{% url 'offer' %}">Договор оферты</a>
+        <a href="{% url 'help' %}">Техническая поддержка</a>
+        <a href="{% url 'confidentiality' %}">Политика конфеденциальности</a>
+        <a href="{% url 'larin' %}">ИП Ларин</a>
+    </div>
+    <div class="footer__line"></div>
+    <div class="footer__text">
+        <img src="{% static 'img/telegram.png' %}" alt="">
+        <img src="{% static 'img/vk.png' %}" alt="">
+        <p>2025© | Разработка DC</p>
+    </div>
+</footer>
+<script src="{% static 'js/main.js' %}"></script>

@@ -1,0 +1,104 @@
+
+    <style>
+        /* Стили для диалогового окна */
+#emailDialog {
+   position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    background-color: #fff;
+}
+
+#emailDialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+#emailInput {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#cancelDialog, #submitEmail {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#cancelDialog {
+    background-color: #f0f0f0;
+}
+
+#submitEmail {
+    background-color: #007bff;
+    color: white;
+}
+    </style>
+    <!-- Модальное окно для ввода email -->
+<dialog id="emailDialog">
+    <div class="dialog-content">
+        <h3>Введите ваш email</h3>
+        <input type="email" id="emailInput" placeholder="Ваш email">
+        <div class="dialog-buttons">
+            <button id="cancelDialog">Отмена</button>
+            <button id="submitEmail">Продолжить</button>
+        </div>
+    </div>
+</dialog>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dialog = document.getElementById("emailDialog");
+        const emailInput = document.getElementById("emailInput");
+        const cancelButton = document.getElementById("cancelDialog");
+        const submitButton = document.getElementById("submitEmail");
+
+        djw = 0
+
+        // Открываем диалоговое окно при нажатии на кнопку "Купить"
+        document.querySelectorAll("#buy_product").forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault(); // Предотвращаем переход по ссылке
+                dialog.showModal(); // Открываем диалоговое окно
+                djw = link.href
+            });
+        });
+
+        // Закрываем диалоговое окно при нажатии на "Отмена"
+        cancelButton.addEventListener("click", function () {
+            dialog.close();
+        });
+
+        // Обработка нажатия на кнопку "Продолжить"
+        submitButton.addEventListener("click", function () {
+            const email = emailInput.value.trim();
+            if (email) {
+                // Получаем ссылку на продукт и добавляем email в URL
+                const productLink = djw
+                window.location.href = `${productLink}?email=${encodeURIComponent(email)}`;
+            } else {
+                alert("Пожалуйста, введите ваш email.");
+            }
+        });
+    });
+</script>

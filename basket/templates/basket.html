@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/basket.css' %}">
+    <title>teach-lab</title>
+</head>
+<body>
+    {% include 'base/header.html' %}
+
+    <main>
+        <div class="adress">
+            <h4><a href="{% url 'main' %}" style="text-decoration: none; color: white">Главная</a> > Оформление заказа</h4>
+        </div>
+       <div class="basket">
+            <h3>Оформление заказа</h3>
+            <div class="basket__tovar">
+                {% if products %}
+                    <div class="basket__tovar__all">
+                        {% for product in products %}
+                            <div class="basket__tovar__all__tovar" data-product-id="{{ product.id }}">
+                                <div class="basket__tovar__all__tovar__main">
+                                    <div class="basket__tovar__all__tovar__img">
+                                        <img src="{% static 'img/success.png' %}" alt="" class="basket__tovar__all__tovar__img__success">
+                                        <img src="{{ product.image1.url }}" alt="" class="basket__tovar__all__tovar__img__tovar">
+                                    </div>
+                                    <div class="basket__tovar__all__tovar__text">
+                                        <h3>{{ product.name }}</h3>
+                                        <p>{{ product.price }} ₽</p>
+                                    </div>
+                                </div>
+                                <div class="basket__tovar__all__tovar__button">
+                                    <img src="{% static 'img/trash.png' %}" alt="">
+                                    <a href="{% url 'buy_product' product.id %}" style="text-decoration: none; color: black" id="buy_product"><button>Купить</button></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <form method="post">
+                           {% csrf_token %}
+                           <div class="basket__tovar__all__form">
+                                <h3>Почта</h3>
+                                <input type="email" placeholder="Почта" name="buy_email">
+                           </div>
+                           <div class="basket__tovar__all__buy">
+                                <h3>0 ₽</h3>
+                                <button type="submit" name="buy_all">Перейти к оформлению</button>
+                           </div>
+                        </form>
+                    </div>
+                {% else %}
+                    <h5>Ваша корзина пуста.</h5>
+                    <a href="{% url 'catalog' %}" style="text-decoration: none"><button>Вернуться в магазин</button></a>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    {% include 'base/dialog.html' %}
+    {% include 'base/footer.html' %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Функция для работы с cookies
+
+                 const emailInput = document.querySelector("input[type='email']");
+            const submitButton = document.querySelector("button[type='submit']");
+
+            if (!emailInput || !submitButton) {
+                console.error("Не удалось найти поле email или кнопку отправки.");
+                return;
+            }
+
+            // Отключаем кнопку изначально
+            submitButton.disabled = true;
+
+            // Включение/отключение кнопки при вводе почты
+            emailInput.addEventListener("input", function () {
+                if (emailInput.value.trim() !== "") {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            });
+
+            // Проверка перед отправкой формы
+            const form = document.querySelector("form");
+            if (!form) {
+                console.error("Не удалось найти форму.");
+                return;
+            }
+
+            form.addEventListener("submit", function (event) {
+                if (emailInput.value.trim() === "") {
+                    event.preventDefault(); // Останавливаем отправку формы
+                    alert("Введите почту для оформления заказа."); // Сообщение об ошибке
+                }
+            });
+
+
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value))};expires=${expires.toUTCString()};path=/`;
+        }
+
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            if (match) return JSON.parse(decodeURIComponent(match[2]));
+            return {};
+        }
+
+        // Функция удаления товара из корзины
+        function removeFromCart(productId) {
+            let cart = getCookie("cart") || {};
+            if (cart[productId]) {
+                delete cart[productId];  // Удаляем товар из корзины
+                setCookie("cart", cart, 7);  // Обновляем cookies
+                updateCartCounter();  // Обновляем счетчик корзины
+                updateTotalPrice();  // Обновляем общую цену
+            }
+        }
+
+        // Функция обновления общей цены
+        function updateTotalPrice() {
+            let total = 0;
+            document.querySelectorAll(".basket__tovar__all__tovar__text p").forEach(priceElement => {
+                let priceText = priceElement.textContent.trim();
+                let price = parseFloat(priceText.replace("₽", "").replace(/\s+/g, ""));
+                if (!isNaN(price)) {
+                    total += price;
+                }
+            });
+
+            const totalPriceElement = document.querySelector(".basket__tovar__all__buy h3");
+            if (totalPriceElement) {
+                totalPriceElement.textContent = `${total} ₽`;
+            }
+        }
+
+        // Обновление счетчика корзины
+        function updateCartCounter() {
+            let cart = getCookie("cart") || {};
+            let totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+
+            const basketButton = document.querySelector(".header__basket");
+            basketButton.innerHTML = `<img src="/static/img/basket.png" alt="">${totalItems}`;
+        }
+
+        // Обработчик для кнопки удаления товара
+        const deleteButtons = document.querySelectorAll(".basket__tovar__all__tovar__button img"); // Находим все кнопки удаления
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function () {
+
+                const productElement = button.closest(".basket__tovar__all__tovar"); // Находим родительский элемент товара
+                const productId = productElement.dataset.productId; // Получаем id товара из data-атрибута
+
+                if (productId) {
+                    removeFromCart(productId);  // Удаляем товар из cookies
+                    productElement.remove();  // Удаляем товар из DOM
+                }
+                location.reload();
+
+            });
+        });
+
+        // Обновление счетчика корзины при загрузке страницы
+        updateCartCounter();
+        updateTotalPrice();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/offerta.css' %}">
+    <title>teach-lab</title>
+</head>
+<body>
+    {% include 'base/header.html' %}
+
+    <main>
+        <div class="adress">
+            <h4><a href="{% url 'main' %}" style="text-decoration: none; color: white">Главная</a> > Оплата, доставка, возврат</h4>
+        </div>
+        <div class="offerta">
+            <h3>Оплата, доставка, возврат</h3>
+            <h5>Способы оплаты
+Оплата банковской картой, через Интернет, возможна через системы электронных платежей. Номер карты (PAN) должен иметь не менее 15 и не более 19 символов.
+Система быстрых платежей (далее “СБП”) – сервис платежной системы Банка России, позволяющий физическим лицам производить оплату за товар/услуги с помощью любого банка-участника СБП.
+Список банков-участников опубликован по ссылке на официальном сайте НСПК. Безопасность переводов обеспечивается на стороне всех банков-участников СБП: банков, Банка России и НСПК с использованием современных систем защиты. СБП соответствует всем стандартам информационной безопасности.
+Сбер Pay
+Доставка
+Исполнитель предоставляет услугу “Доступ к электронным документам” после 100% предоплаты Клиентом.
+Доступ к электронным документам предоставляется исключительно на странице «Загрузки», доступной после входа в аккаунт Клиента.
+Исполнитель не несет ответственности за утрату Клиентом данных для авторизации в аккаунт, но предоставляет механизм восстановления доступа к аккаунту.
+Возврат
+Возврат средств за услугу “Доступа к электронным документам” возможен при условии, что Клиент не совершал загрузку электронных документов, доступ к которым оплатил.
+Загрузкой электронных документов считается как полная, так и незавершенная загрузка документов.
+Факт загрузки фиксируется в информационной системе сайта.
+Исполнитель предоставляет информацию о наличии или отсутствии факта загрузки электронного документа по требованию клиента.
+</h5>
+        </div>
+    </main>
+
+    {% include 'base/footer.html' %}
+</body>
+</html>

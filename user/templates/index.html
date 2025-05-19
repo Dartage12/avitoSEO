@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <title>teach-lab</title>
+</head>
+<body>
+    {% include 'base/header.html' %}
+
+    <main>
+        <div class="cart">
+            {% for category in categories %}
+            	<div>
+                    <h3>{{ category.name }}</h3>
+                    <p>{{ category.description }}</p>
+                    <a href="{% url 'catalog_by_category' category.name %}"><button>Подробнее</button></a>
+                    <img src="{% static 'img/book1.png' %}" alt="" class="cart__img">
+                </div>
+            {% endfor %}
+
+
+        </div>
+        <div class="material">
+
+            <div class="material__about">
+                <a href="{% url 'catalog_by_category' '-бесплатные разработки' %}" style="text-decoration: none; color: black"><p>-бесплатные разработки</p></a>
+                <a href="{% url 'catalog_by_category' '-украшения кабинета' %}" style="text-decoration: none; color: black"><p>-украшения кабинета</p></a>
+            </div>
+            <img src="{% static 'img/person.png' %}" alt="">
+        </div>
+        <div class="reviews">
+            <h3>Отзывы</h3>
+            <p>О наших разработках</p>
+            <div class="reviews__arrow">
+                <img id="arrow_left" src="{% static 'img/arrow_left.png' %}" alt="">
+                <img id="arrow_right" src="{% static 'img/arrow_right.png' %}" alt="">
+            </div>
+            <div class="swiper reviews__container">
+                <div class="swiper-wrapper">
+                    {% for review in reviews %}
+                        <div class="swiper-slide reviews__comment">
+                            <div class="reviews_comment__user">
+                                <img src="{{ review.avatar.url }}" alt="">
+                                <h3>{{ review.name }}</h3>
+                            </div>
+                            <p>{{ review.review }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'base/footer.html' %}
+</body>
+</html>
