@@ -1,7 +1,7 @@
 * {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Это критично, чтобы padding и border включались в width/height */
 }
 :root {
     --orange: #F2A879;
@@ -18,6 +18,7 @@ body {
     font-family: "M PLUS Rounded 1c", serif;
     background: var(--body);
     font-weight: 400;
+    overflow-x: hidden; /* Добавлено, чтобы предотвратить горизонтальную прокрутку от переполнения */
 }
 header {
     display: flex;
@@ -156,18 +157,29 @@ main {
     margin-top: 40px;
     column-gap: 27px;
 }
+/* Общий Swiper контейнер */
 .swiper {
     width: 100%;
-    overflow: hidden;
+    /* overflow: hidden; /* Если у вас есть swiper-scrollbar, это может его скрыть */
 }
 
 .swiper-wrapper {
     display: flex;
 }
 
-.swiper-slide {
+/* --- ИЗМЕНЕНИЯ ЗДЕСЬ --- */
+/* Стиль для слайдов, которые должны быть 1/3 ширины (например, в блоке отзывов или похожих товаров) */
+.reviews__container .swiper-slide,
+.product__container .swiper-slide {
     flex-shrink: 0;
-    width: calc(100% / 3 - 20px);
+    width: calc(100% / 3 - 20px); /* Adjust based on your specific spacing needs */
+    box-sizing: border-box;
+}
+
+/* Стиль для слайдов внутри карточек каталога, где slidesPerView: 1 */
+.catalog__all__tovar__img__img .swiper-slide {
+    width: 100% !important; /* КРИТИЧНО! Убедитесь, что слайд занимает 100% ширины своего Swiper-контейнера */
+    height: auto !important; /* КРИТИЧНО! Позволяет высоте подстраиваться, а не фиксироваться */
     box-sizing: border-box;
 }
 
