@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/media.css' %}">
     <link rel="stylesheet" href="{% static 'css/confirm.css' %}">
-    <title>teach-lab</title>
+    <title>Заказ успешно оплачен | Teach-Lab</title>
 </head>
 <body>
     {% include 'base/header.html' %}
@@ -28,8 +28,8 @@
         <div class="confirm">
             <h3>Оформление заказа</h3>
             <div class="confirm__payment">
-                <h4>Ваш заказ оплачен</h4>
-                <img src="{% static 'img/success.svg' %}" alt="" class="confirm__payment__img">
+                <h1>Ваш заказ оплачен</h1>
+                <img src="{% static 'img/success.svg' %}" alt="Заказ успешно оплачен" class="confirm__payment__img">
                 <h3>Нажмите на кнопку с названием материала, чтобы скачать</h3>
                 <div class="confirm__payment__download">
                     {% for product in order %}

@@ -44,18 +44,18 @@
 
         }
     </style>
-    <a href="{% url 'main' %}"><img src="{% static 'img/logo.ico' %}" alt="" width="340px" class="header__logo"></a>
+    <a href="{% url 'main' %}"><img src="{% static 'img/logo.ico' %}" alt="Логотип" width="340px" class="header__logo"></a>
     <ul>
         <a href="{% url 'catalog' %}">
-            <button class="header__all"><img src="{% static 'img/folder.png' %}" alt="">Все разработки</button>
+            <button class="header__all"><img src="{% static 'img/folder.png' %}" alt="Папка">Все разработки</button>
         </a>
-        {#        <a href="#"><button class="header__office"><img src="{% static 'img/avatar.png' %}" alt="">Войти в кабинет</button></a>#}
+        {#        <a href="#"><button class="header__office"><img src="{% static 'img/avatar.png' %}" alt="Аватар">Войти в кабинет</button></a>#}
         <a href="{% url 'basket' %}">
-            <button class="header__basket"><img src="{% static 'img/basket.png' %}" alt="">0 <span
+            <button class="header__basket"><img src="{% static 'img/basket.png' %}" alt="Корзина">0 <span
                     style="color: #FD7E14;">₽</span></button>
         </a>
         <div class="burger__menu">
-            <button onclick="burgerMenu()"><img src="{% static 'img/burger.png' %}" alt="">Меню</button>
+            <button onclick="burgerMenu()"><img src="{% static 'img/burger.png' %}" alt="Бургер меню">Меню</button>
             <nav id="burger-menu">
                 <a href="{% url 'main' %}">Главная страница</a>
                 <a href="{% url 'basket' %}">Корзина</a>

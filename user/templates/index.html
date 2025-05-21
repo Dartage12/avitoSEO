@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <meta name="description" content="На Teach-Lab вы найдете качественные методические разработки, дидактические материалы и украшения для кабинета. Скачивайте бесплатные и платные материалы для педагогов.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
@@ -12,23 +13,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
 
-    <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'img/favicon.jpg' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/media.css' %}">
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
-    <title>teach-lab</title>
+    <title>teach-lab материалы для учителей</title>
 </head>
 <body>
     {% include 'base/header.html' %}
 
     <main>
+        <h1>Методические разработки и учебные материалы для учителей от Teach-Lab</h1>
         <div class="cart">
             {% for category in categories %}
             	<div>
                     <h3>{{ category.name }}</h3>
                     <p>{{ category.description }}</p>
                     <a href="{% url 'catalog_by_category' category.name %}"><button>Подробнее</button></a>
-                    <img src="{% static 'img/book1.png' %}" alt="" class="cart__img">
+                    <img src="{% static 'img/book1.png' %}" alt="Иконка учебника" class="cart__img">
                 </div>
             {% endfor %}
 
@@ -40,21 +42,21 @@
                 <a href="{% url 'catalog_by_category' '-бесплатные разработки' %}" style="text-decoration: none; color: black"><p>-бесплатные разработки</p></a>
                 <a href="{% url 'catalog_by_category' '-украшения кабинета' %}" style="text-decoration: none; color: black"><p>-украшения кабинета</p></a>
             </div>
-            <img src="{% static 'img/person.png' %}" alt="">
+            <img src="{% static 'img/person.png' %}" alt="Иконка мальчика с учебниками">
         </div>
         <div class="reviews">
             <h3>Отзывы</h3>
             <p>О наших разработках</p>
             <div class="reviews__arrow">
-                <img id="arrow_left" src="{% static 'img/arrow_left.png' %}" alt="">
-                <img id="arrow_right" src="{% static 'img/arrow_right.png' %}" alt="">
+                <img id="arrow_left" src="{% static 'img/arrow_left.png' %}" alt="Стрелка влево">
+                <img id="arrow_right" src="{% static 'img/arrow_right.png' %}" alt="Стрелка вправо">
             </div>
             <div class="swiper reviews__container">
                 <div class="swiper-wrapper">
                     {% for review in reviews %}
                         <div class="swiper-slide reviews__comment">
                             <div class="reviews_comment__user">
-                                <img src="{{ review.avatar.url }}" alt="">
+                                <img src="{{ review.avatar.url }}" alt="Аватар пользователя">
                                 <h3>{{ review.name }}</h3>
                             </div>
                             <p>{{ review.review }}</p>
