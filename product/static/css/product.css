@@ -1,377 +1,416 @@
+/* product.css */
+
 :root {
     --orange: #F2A879;
     --body: #EED6C5;
     --silver: #808080;
     --silver2: #766F6F;
 }
-.adress {
-    display: flex;
-    margin-top: 50px;
-}
-.adress h4 {
-    color: white;
-    font-size: 24px;
-    font-family: "M PLUS Rounded 1c", serif;
-    font-weight: 400;
-    word-wrap: break-word;
-    white-space: normal;
-    max-width: 90vw;
-}
+
 .product {
     display: flex;
-    flex-direction: column;
-    margin: 90px auto;
-    width: 70%;
-}
-.product__img {
-    display: grid;
-    grid-template-columns: 1fr 200px;
-    height: max-content;
+    flex-direction: row;
+    flex-wrap: wrap;
     background: white;
-    border-radius: 40px;
-    padding-top: 40px;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-bottom: 10px;
-}
-.product__img__wrapper {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    padding-right: 30px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid var(--orange);
-}
-
-.product__img__main {
-    width: 100%;
+    margin-top: 50px;
     border-radius: 45px;
-    display: block;
-    justify-self: center;
-    margin-bottom: 10px;
+    padding: 30px;
+    column-gap: 30px;
+    row-gap: 30px;
+    align-items: flex-start; /* Чтобы элементы выравнивались по верху */
 }
 
-.product__img button {
-    border: none;
-    background-color: var(--body);
-    color: white;
-    width: max-content;
-    border-radius: 25px;
-    padding-left: 24px;
-    padding-right: 24px;
-    height: 80px;
-    font-size: 40px;
-    margin-top: 15px;
-}
-.product__img__nomain {
+.product__img {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    border-bottom: 1px solid var(--orange);
-    border-left: 1px solid var(--orange);
+    position: relative;
+    width: 600px; /* Фиксированная ширина для контейнера изображения */
+    /* Если вы хотите, чтобы он был адаптивным, используйте max-width: 100% */
 }
-.product__img__nomain img {
-    width: 150px;
-    height: 150px;
-    border-radius: 40px;
-    margin-bottom: 10px;
+
+/* Стили для контейнера Swiper на странице продукта */
+.product__img .swiper {
+    width: 100%;
+    height: 400px; /* Или используйте aspect-ratio для адаптивной высоты */
+    position: relative; /* Важно для позиционирования стрелок */
+    overflow: hidden; /* Скрывает все, что выходит за пределы */
+    border-radius: 45px; /* Унаследуем border-radius от .product__img, если нужно */
+}
+
+.product__img .swiper-wrapper {
+    height: 100%;
+}
+
+.product__img .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.product__img .swiper-slide img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Сохраняет пропорции и вписывает изображение */
+    display: block; /* Убирает лишний отступ под изображением */
+}
+
+/* Стили для навигационных стрелок на странице продукта */
+.product-images-swiper .swiper-button-prev,
+.product-images-swiper .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10; /* Убедитесь, что стрелки над изображением */
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.5); /* Полупрозрачный белый фон (50% прозрачности) */
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.product-images-swiper .swiper-button-prev {
+    left: 10px;
+}
+
+.product-images-swiper .swiper-button-next {
+    right: 10px;
+}
+
+/* ЭТИ СТИЛИ ОТВЕЧАЮТ ЗА НАПРАВЛЕНИЕ СТРЕЛОК */
+.product-images-swiper .swiper-button-prev:after {
+    content: 'prev'; /* Символ для стрелки "назад" */
+    font-family: swiper-icons; /* Использует встроенный шрифт Swiper */
+    font-size: 20px; /* Размер стрелки. Можно изменить. */
+    color: black; /* Цвет самой стрелки */
+}
+
+.product-images-swiper .swiper-button-next:after {
+    content: 'next'; /* Символ для стрелки "вперед" */
+    font-family: swiper-icons; /* Использует встроенный шрифт Swiper */
+    font-size: 20px; /* Размер стрелки. Можно изменить. */
+    color: black; /* Цвет самой стрелки */
+}
+
+
+/* Если вы ранее использовали свои PNG-изображения для стрелок,
+   то эти блоки нужно удалить или закомментировать,
+   чтобы Swiper использовал свои встроенные иконки с заданным цветом. */
+/*
+.product-images-swiper .swiper-button-prev {
+    background-image: url('{% static "img/arrow_left.png" %}');
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.product-images-swiper .swiper-button-next {
+    background-image: url('{% static "img/arrow_right.png" %}');
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.product-images-swiper .swiper-button-prev:after,
+.product-images-swiper .swiper-button-next:after {
+    content: none;
+}
+*/
+
+
+/* Стили для пагинации (точек), если вы ее включили в HTML */
+/*
+.product-images-swiper .swiper-pagination {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+}
+.product-images-swiper .swiper-pagination-bullet {
+    background: white;
+    opacity: 0.7;
+}
+.product-images-swiper .swiper-pagination-bullet-active {
+    background: var(--orange);
+    opacity: 1;
+}
+*/
+
+.product__img button {
+    margin-top: 10px;
+    height: 60px;
+    border-radius: 45px;
+    border: none;
+    background-color: var(--orange);
+    color: white;
+    font-size: 32px;
+    width: 100%;
 }
 .product__about {
     display: flex;
     flex-direction: column;
-    background-color: white;
-    margin-top: 25px;
-    border-radius: 25px;
-    padding-top: 57px;
-    padding-left: 59px;
-    padding-right: 37px;
-    padding-bottom: 39px;
-    max-width: 100%;
-    flex-wrap: wrap;
+    flex-grow: 1; /* Позволяет блоку занимать оставшееся место */
+    margin-left: 20px;
 }
-
-.product__about h3,
-.product__about h4 {
-    font-size: 32px;
+.product__about h3 {
+    font-size: 40px;
     color: var(--orange);
+}
+.product__about h4 {
+    margin-top: 15px;
+    font-size: 24px;
+    color: black;
+    max-width: 600px;
     word-wrap: break-word;
-    overflow-wrap: break-word;
-    max-width: 100%;
-    white-space: normal;
-    min-width: 0;
-}
-
-.product__about h4 {
-    font-size: 28px;
-}
-.product__about h4 {
-    font-size: 28px;
-    color: var(--orange);
+    white-space: pre-wrap; /* Сохраняет пробелы и переносы строк */
 }
 .product__about__button {
     display: flex;
     flex-direction: row;
-    margin-top: 55px;
-    column-gap: 35px;
+    margin-top: 30px;
+    column-gap: 20px;
+    flex-wrap: wrap; /* Для адаптивности */
 }
 .product__about__button button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 65px;
-    padding-right: 65px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 24px;
-    color: white;
+    border: none;
     background-color: var(--orange);
+    color: white;
     border-radius: 45px;
-    border: 1px solid var(--orange);
+    padding: 10px 20px;
+    font-size: 30px;
+    width: 100%;
+    max-width: 250px; /* Ограничиваем ширину кнопок */
+    box-sizing: border-box;
 }
+
 .product__description {
     display: flex;
     flex-direction: column;
-    width: max-content;
-    height: max-content;
-    background: white;
-    border-radius: 25px;
-    padding-top: 15px;
-    padding-left: 35px;
-    padding-right: 30px;
-    padding-bottom: 27px;
-    margin-top: 25px;
-    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid var(--orange);
 }
 .product__description h3 {
-    font-size: 40px;
+    font-size: 32px;
     color: var(--orange);
-    word-wrap: break-word;
-    white-space: normal;
-    max-width: 90vw;
+}
+.product__description__line {
+    content: '';
+    border: 2px solid var(--orange);
+    width: 100%;
+    margin-top: 20px;
 }
 .product__description__value {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     margin-top: 20px;
-    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--silver);
 }
 .product__description__value h3 {
-    font-size: 32px;
+    font-size: 24px;
     color: black;
-    flex: 1;
 }
 .product__description__value h4 {
-    background: var(--body);
-    border-radius: 25px;
-    padding-left: 45px;
-    padding-right: 45px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-.product__description__line {
-    content: '';
-    border: 1px solid var(--orange);
+    font-size: 24px;
+    color: black;
 }
 .product__rec {
     display: flex;
     flex-direction: column;
-    margin-top: 60px;
-    background: white;
-    border-radius: 45px;
-    padding-top: 50px;
-    padding-left: 60px;
-    padding-right: 60px;
-    padding-bottom: 45px;
+    width: 100%;
+    margin-top: 50px;
 }
 .product__arrow {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 .product__arrow h3 {
     font-size: 32px;
     color: var(--orange);
 }
 .product__arrow img {
+    cursor: pointer;
     width: 50px;
     height: 50px;
 }
 .product__container {
     display: flex;
     flex-direction: row;
-    max-width: 100%;
-    column-gap: 15px;
-    margin-top: 17px;
-}
-.product_product {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; /* Растягиваем на всю доступную высоту */
-    border: 1px solid var(--orange);
-    border-radius: 27px;
-    text-align: center;
-    align-items: center;
-    padding-top: 30px;
-    padding-bottom: 10px;
+    column-gap: 20px;
 }
 .product__recomend {
     display: flex;
     flex-direction: column;
+    background: white;
+    border-radius: 45px;
+    padding: 20px;
     align-items: center;
-    flex-grow: 1; /* Растягиваем на всю доступную высоту */
-}
-
-.product__recomend a {
-    text-decoration: none;
-    font-size: 32px;
-    color: var(--orange);
-    word-break: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-}
-
-.product__recomend p {
-    background: var(--body);
-    border-radius: 25px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 5px;
-    padding-bottom: 1px;
-    font-size: 36px;
-    color: white;
+    text-align: center;
+    min-height: 380px; /* Для равномерности карточек */
 }
 .product__recomend img {
-    width: 250px;
-    height: 250px;
-    border-radius: 36px;
-    padding-left: 10px;
-    padding-right: 10px;
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    max-height: 150px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+.product__recomend a {
+    font-size: 24px;
+    color: var(--orange);
+    text-decoration: none;
+    margin-bottom: 5px;
+    word-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
+}
+.product__recomend p {
+    font-size: 20px;
+    color: black;
+    margin-bottom: 15px;
 }
 .product__recomend__button {
     display: flex;
-    flex-direction: column;
-    margin-top: 13px;
-    row-gap: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 2px solid var(--orange);
+    padding-top: 15px;
+    gap: 10px;
 }
 .product__recomend__button button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 24px;
-    color: white;
+    border: none;
     background-color: var(--orange);
+    color: white;
     border-radius: 45px;
-    border: 1px solid var(--orange);
+    padding: 8px 15px;
+    font-size: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.product__recomend__button__click img {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+.product__recomend__button a {
+    text-decoration: none;
+    color: black;
 }
 
-.swiper {
-    width: 100%;
-    overflow: hidden;
-}
 
-.swiper-wrapper {
-    display: flex;
-    align-items: stretch;
-}
-
-.swiper-slide {
-    display: flex; /* Делаем слайд flex-контейнером */
-    flex-direction: column; /* Элементы внутри слайда выстраиваются в колонку */
-    height: auto; /* Высота слайда будет определяться содержимым */
-}
-@media screen and (max-width: 780px) {
-    .product__recomend__button {
-        display: flex;
-        flex-direction: column;
-        row-gap: 10px;
-    }
-    .product__about__button {
-        display: flex;
-        flex-direction: column;
-        row-gap: 10px;
-    }
-
-}
-
-@media screen and (max-width: 1200px) {
-    .product__img {
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-    .product__img__main {
-        width: 100%;
-        height: auto;
-    }
-    .product__img__wrapper {
-        border: none;
-        padding: 0;
-        padding-bottom: 30px;
-    }
-    .product__img__nomain img {
-        width: 100%;
-        height: auto;
-    }
-    .product__img__nomain {
-        border: none;
-    }
-
-}
+/* Модальное окно для изображений (оверлей) */
 .image-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s;
+}
+
+.image-overlay.active {
+    visibility: visible;
+    opacity: 1;
 }
 
 .image-overlay img {
     max-width: 90%;
     max-height: 90%;
-    border-radius: 10px;
+    object-fit: contain;
 }
 
-.image-overlay.active {
-    display: flex;
-}
-
-.image-overlay .close-btn {
+.close-btn {
     position: absolute;
     top: 20px;
     right: 30px;
-    font-size: 30px;
     color: white;
+    font-size: 40px;
     cursor: pointer;
 }
 
-@media screen and (max-width: 490px) {
-    .product__description__value {
-        display: flex;
+/* Адаптивность */
+@media screen and (max-width: 1200px) {
+    .product {
         flex-direction: column;
+        align-items: center;
     }
-    .product__rec {
-        padding-left: 2px;
-        padding-right: 2px;
-    }
-    .product__description {
+    .product__img {
         width: 100%;
-        max-width: 100%;
-
-    }
-
-    .product__about__button button {
-        font-size: 18px;
+        max-width: 600px;
     }
     .product__about {
-        padding-left: 10px;
-        padding-right: 10px;
+        margin-left: 0;
+        text-align: center;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 890px) {
+    .product__img .swiper,
+    .product__img .swiper-slide img {
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .product__img {
+        width: 100%;
+    }
+    .product__img .swiper {
+        height: 250px;
+    }
+    .product__about h3 {
+        font-size: 32px;
+    }
+    .product__about h4 {
+        font-size: 20px;
+    }
+    .product__about__button {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+    .product__about__button button {
+        max-width: 100%;
+    }
+    .product__description__value h3,
+    .product__description__value h4 {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 490px) {
+    .product__img .swiper,
+    .product__img .swiper-slide img {
+        height: 200px;
+    }
+    .product__img button {
+        font-size: 24px;
+        padding: 8px 15px;
     }
 }

@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="{% static 'img/favicon.jpg' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/media.css' %}">
-    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}"> {# Убедитесь, что этот файл подключен #}
     <title>teach-lab</title>
 </head>
 <div class="image-overlay" id="imageOverlay">
@@ -31,12 +31,38 @@
         </div>
         <div class="product" data-product-id="{{ product.id }}">
             <div class="product__img">
-                <img src="{{ product.image1.url }}" alt="" class="product__img__main">
-                <div class="product__img__nomain">
-                    <img src="{{ product.image2.url }}" alt="">
-                    <img src="{{ product.image3.url }}" alt="">
-                    <img src="{{ product.image4.url }}" alt="">
+                {# НАЧАЛО ИЗМЕНЕНИЙ: Swiper для изображений продукта #}
+                <div class="swiper product-images-swiper">
+                    <div class="swiper-wrapper">
+                        {% if product.image1 %}
+                        <div class="swiper-slide">
+                            <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product__img__main" width="600" height="400">
+                        </div>
+                        {% endif %}
+                        {% if product.image2 %}
+                        <div class="swiper-slide">
+                            <img src="{{ product.image2.url }}" alt="{{ product.name }} 2" width="600" height="400">
+                        </div>
+                        {% endif %}
+                        {% if product.image3 %}
+                        <div class="swiper-slide">
+                            <img src="{{ product.image3.url }}" alt="{{ product.name }} 3" width="600" height="400">
+                        </div>
+                        {% endif %}
+                        {% if product.image4 %}
+                        <div class="swiper-slide">
+                            <img src="{{ product.image4.url }}" alt="{{ product.name }} 4" width="600" height="400">
+                        </div>
+                        {% endif %}
+                        {# Добавьте больше изображений, если они есть (image5, image6 и т.д.) #}
+                    </div>
+                    {# Навигационные стрелки Swiper (ВНУТРИ контейнера Swiper) #}
+                    <div class="swiper-button-prev product-prev-btn"></div>
+                    <div class="swiper-button-next product-next-btn"></div>
+                    {# Пагинация (точки) Swiper (опционально, раскомментируйте, если нужна) #}
+                    {# <div class="swiper-pagination product-pagination"></div> #}
                 </div>
+                {# КОНЕЦ ИЗМЕНЕНИЙ: Swiper для изображений продукта #}
                 <button>{{ product.price }} ₽</button>
             </div>
             <div class="product__about">
@@ -71,6 +97,7 @@
             <div class="product__rec">
                 <div class="product__arrow">
                     <h3>Может быть интересно</h3>
+                    {# Эти стрелки используются для Swiper product__container, не путайте с product-images-swiper #}
                     <img id="arrow_left" src="{% static 'img/arrow_left.png' %}" alt="">
                     <img id="arrow_right" src="{% static 'img/arrow_right.png' %}" alt="">
                 </div>
@@ -94,13 +121,13 @@
                             </div>
                         {% endfor %}
                    </div>
-
                 </div>
             </div>
         </div>
     </main>
 <script>
-    document.querySelectorAll('.catalog__product__img, .product__img__main, .product__img__nomain img').forEach(img => {
+    // Обновлен селектор для image-overlay, чтобы он работал с изображениями из Swiper
+    document.querySelectorAll('.product-images-swiper img').forEach(img => {
         img.addEventListener('click', function() {
             document.getElementById('overlayImage').src = this.src;
             document.getElementById('imageOverlay').classList.add('active');

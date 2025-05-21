@@ -31,7 +31,7 @@
         </div>
         <div class="catalog">
             {% if category_name %}
-            	<h3>{{ category_name }}</h3>
+                <h3>{{ category_name }}</h3>
             {% else %}
                 <h3>Все разработки</h3>
             {% endif %}
@@ -65,24 +65,32 @@
                     <div class="catalog__all__tovar" data-product-id="{{ product.id }}">
                         <div class="catalog__all__tovar__about">
                             <div class="catalog__all__tovar__img">
-                                <img class="arrow_left" src="{% static 'img/arrow_left.png' %}" alt="" width="50px" height="50px">
                                 <div class="swiper catalog__all__tovar__img__img">
                                     <div class="swiper-wrapper">
+                                        {% if product.image1 %}
                                         <div class="swiper-slide">
                                             <a href="{% url 'product' product.id %}"><img src="{{ product.image1.url }}" alt="" class="catalog__product__img"></a>
                                         </div>
+                                        {% endif %}
+                                        {% if product.image2 %}
                                         <div class="swiper-slide">
                                             <a href="{% url 'product' product.id %}"><img src="{{ product.image2.url }}" alt="" class="catalog__product__img"></a>
                                         </div>
+                                        {% endif %}
+                                        {% if product.image3 %}
                                         <div class="swiper-slide">
                                             <a href="{% url 'product' product.id %}"><img src="{{ product.image3.url }}" alt="" class="catalog__product__img"></a>
                                         </div>
+                                        {% endif %}
+                                        {% if product.image4 %}
                                         <div class="swiper-slide">
                                             <a href="{% url 'product' product.id %}"><img src="{{ product.image4.url }}" alt="" class="catalog__product__img"></a>
                                         </div>
+                                        {% endif %}
                                     </div>
-                                </div>
-                                <img class="arrow_right" src="{% static 'img/arrow_right.png' %}" alt="" width="50px" height="50px">
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
+                                    </div>
                             </div>
                             <div class="catalog__all__tovar__text">
                                 <a href="{% url 'product' product.id %}">{{ product.name }}</a>
@@ -145,8 +153,9 @@
             function initSwipers() {
                 document.querySelectorAll(".catalog__all__tovar").forEach((tovar) => {
                     const swiperContainer = tovar.querySelector(".swiper");
-                    const prevButton = tovar.querySelector(".arrow_left");
-                    const nextButton = tovar.querySelector(".arrow_right");
+                    // ОБНОВЛЕННЫЕ СЕЛЕКТОРЫ ДЛЯ КНОПОК SWIPER
+                    const prevButton = swiperContainer.querySelector(".swiper-button-prev");
+                    const nextButton = swiperContainer.querySelector(".swiper-button-next");
 
                     if (swiperContainer && prevButton && nextButton) {
                         // Уничтожаем существующий Swiper, если он есть

@@ -106,7 +106,6 @@ select:focus {
     font-size: 20px;
 }
 .catalog__filter__line {
-    display: flex;
     content: '';
     border: 2px solid #F2A879;
     margin-top: 27px;
@@ -116,21 +115,16 @@ select:focus {
     width: 100%;
 }
 
-/* --- ИЗМЕНЕНИЯ ЗДЕСЬ --- */
 .catalog__all {
     display: grid;
-    /* Уменьшаем minmax для лучшей адаптивности на разных экранах */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     margin: 90px auto;
     column-gap: 30px;
-    /* row-gap: 30px; /* Добавьте, если хотите явный вертикальный зазор */
 }
 
-/* Явно указываем 3 колонки для больших экранов */
-@media screen and (min-width: 1200px) { /* Точка перелома, где хотите 3 колонки */
+@media screen and (min-width: 1200px) {
     .catalog__all {
         grid-template-columns: repeat(3, 1fr);
-        /* gap: 20px; /* Возможно, уменьшите зазор, если 30px слишком много */
     }
 }
 
@@ -139,11 +133,11 @@ select:focus {
     flex-direction: column;
     background: white;
     border-radius: 45px;
-    /* Уменьшаем боковые отступы, чтобы дать больше места содержимому */
-    padding: 65px 20px 5px 20px; /* Изменено */
+    padding: 65px 20px 5px 20px;
     margin-top: 30px;
     align-items: stretch;
-    min-height: 480px; /* Увеличена минимальная высота для стабильности */
+    min-height: 480px;
+    position: relative;
 }
 
 .catalog__all__tovar__about {
@@ -152,42 +146,52 @@ select:focus {
     flex-wrap: wrap;
 }
 
-/* Убедитесь, что изображения внутри swiper-контейнера правильно масштабируются */
 .catalog__all__tovar__img {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* Keep this if you want flex layout for images */
     align-items: center;
-    justify-content: center; /* Центрируем изображение */
+    justify-content: center;
     margin: 0 auto;
     max-width: 100%;
-    overflow: hidden;
-    min-height: 250px; /* Добавлена минимальная высота для контейнера изображения */
-    /* Если вы используете aspect-ratio на img, этот min-height может быть не нужен */
+    /* Removed overflow: hidden; from here and min-height, moved to .catalog__all__tovar__img__img */
 }
 
-/* Это правило Swiper должен управлять сам, но мы оставляем его для img */
-.catalog__all__tovar__img img {
-    max-width: 100%;
-    /* max-height: 100%; */ /* Можно убрать, если height: auto */
-    width: auto;
-    height: auto; /* Позволяем высоте подстраиваться под ширину и пропорции */
-    object-fit: contain;
-    display: block; /* Убираем лишнее пространство под inline-img */
-}
-
-/* Важно: это общий селектор для Swiper. Стили для слайдов должны быть более специфичны */
-/* .swiper {
+/* Это Swiper-контейнер для изображений внутри карточки товара */
+.catalog__all__tovar__img__img {
+    position: relative;
     width: 100%;
-    height: 100%;
-} */
-/* Это удалено, так как Swiper управляет этими свойствами. */
-
-/* Стили для img внутри swiper-slide */
-.swiper-slide img {
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
+    overflow: hidden; /* Важно, чтобы скрыть лишнее содержимое слайдов, если оно выходит за пределы */
+    display: flex; /* Добавляем flex для центрирования Swiper-wrapper */
+    justify-content: center;
+    align-items: center;
 }
+
+/* Убедимся, что swiper-wrapper заполняет всю доступную высоту */
+.catalog__all__tovar__img__img .swiper-wrapper {
+    height: 100%;
+    width: 100%; /* Добавлено для явного контроля ширины */
+}
+
+/* Стиль для отдельного слайда внутри Swiper */
+.catalog__all__tovar__img__img .swiper-slide {
+    width: 100%; /* Swiper управляет этим, но явное указание не помешает */
+    height: 100%; /* Убедимся, что слайд занимает 100% высоты контейнера */
+    display: flex; /* Используем flexbox для центрирования изображения внутри слайда */
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Важно для Swiper, чтобы слайды не сжимались */
+    flex-grow: 0;
+}
+
+/* Стиль для самого изображения внутри слайда */
+.catalog__all__tovar__img__img .swiper-slide img {
+    /* Удалены явные width: 100%; height: 100%; которые могли конфликтовать */
+    max-width: 100%; /* Изображение не будет выходить за пределы ширины слайда */
+    max-height: 100%; /* Изображение не будет выходить за пределы высоты слайда */
+    object-fit: contain; /* ГЛАВНОЕ: Изображение полностью помещается в контейнер без обрезки, сохраняя пропорции */
+    display: block; /* Убираем лишние отступы, присущие инлайн-элементам */
+}
+
 
 .catalog__all__tovar__text {
     display: flex;
@@ -241,17 +245,16 @@ select:focus {
     background-color: var(--orange);
     color: white;
     border-radius: 45px;
-    /* Уменьшаем padding на кнопке, чтобы она лучше помещалась */
-    padding-left: 20px; /* Изменено */
-    padding-right: 20px; /* Изменено */
+    padding-left: 20px;
+    padding-right: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    font-size: 30px; /* Возможно, уменьшите размер шрифта */
+    font-size: 30px;
     width: 100%;
     justify-content: center;
-    box-sizing: border-box; /* Убедимся, что box-sizing применяется */
-    white-space: normal; /* Разрешаем перенос текста на кнопке */
-    text-align: center; /* Центрируем текст, если переносится */
+    box-sizing: border-box;
+    white-space: normal;
+    text-align: center;
 }
 .catalog__paginator {
     display: flex;
@@ -287,28 +290,20 @@ select:focus {
 .catalog__paginator div {
     padding-right: 25px;
 }
-.catalog__product__img {
-    width: 600px;
-    height: 400px;
-}
 
 
 @media screen and (max-width: 890px) {
     .catalog__all__tovar__img__img {
-        max-width: 300px;
-    }
-    .catalog__product__img {
-        width: 300px;
-        height: auto;
+        /* Эти медиа-запросы могут влиять на отображение изображений.
+           Возможно, стоит убедиться, что здесь нет конфликтующих правил,
+           или что max-width не приводит к слишком сильному сжатию,
+           если изображение сильно шире своего контейнера. */
+        /* max-width: 300px; */
     }
 }
 @media screen and (max-width: 490px) {
     .catalog__all__tovar__img__img {
-        max-width: 200px;
-    }
-    .catalog__product__img {
-        width: 200px;
-        height: auto;
+        /* max-width: 200px; */
     }
 }
 @media screen and (max-width: 780px) {
