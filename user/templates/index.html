@@ -26,31 +26,30 @@
         <h1>Методические разработки и учебные материалы для учителей от Teach-Lab</h1>
         <div class="cart">
             {% for category in categories %}
-            	<div>
+                <div>
                     <h3>{{ category.name }}</h3>
                     <p>{{ category.description }}</p>
                     <a href="{% url 'catalog_by_category' category.name %}"><button>Подробнее</button></a>
                     <img src="{% static 'img/book1.png' %}" alt="Иконка учебника" class="cart__img">
                 </div>
             {% endfor %}
-
-
         </div>
-        <div class="material">
 
-            <div class="material__about">
-                <a href="{% url 'catalog_by_category' '-бесплатные разработки' %}" style="text-decoration: none; color: black"><p>-бесплатные разработки</p></a>
-                <a href="{% url 'catalog_by_category' '-украшения кабинета' %}" style="text-decoration: none; color: black"><p>-украшения кабинета</p></a>
-            </div>
-            <img src="{% static 'img/person.png' %}" alt="Иконка мальчика с учебниками">
+        <div class="material">
+            <a href="{% url 'catalog_by_category' '-бесплатные разработки' %}" class="material-card material-card--free">
+                <span class="material-card__text">-бесплатные разработки</span>
+                </a>
+
+            <a href="{% url 'catalog_by_category' '-украшения кабинета' %}" class="material-card material-card--decorations">
+                <span class="material-card__text">-украшения кабинета</span>
+                <img src="{% static 'img/person.png' %}" alt="Украшения для кабинета" class="material-card__person-img">
+            </a>
         </div>
         <div class="reviews">
             <h3>Отзывы</h3>
             <p>О наших разработках</p>
             <div class="reviews__arrow">
-                <!-- <img id="arrow_left" src="{% static 'img/arrow_left.png' %}" alt="Стрелка влево">
-                <img id="arrow_right" src="{% static 'img/arrow_right.png' %}" alt="Стрелка вправо"> -->
-            </div>
+                </div>
             <div class="swiper reviews__container">
                 <div class="swiper-wrapper">
                     {% for review in reviews %}
@@ -68,5 +67,6 @@
     </main>
 
     {% include 'base/footer.html' %}
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

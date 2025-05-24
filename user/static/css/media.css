@@ -1,48 +1,91 @@
+/* Адаптивные стили */
 
+/* Планшеты и большие мобильные устройства */
 @media screen and (max-width: 1050px) {
-    .cart {
-        grid-template-columns: repeat(1, 1fr);
-    }
-    .header__all {
-        display: none;
-    }
-    .header__office {
-        display: none;
-    }
-    .header__basket {
-        display: none;
-    }
+    .header__nav-items { display: none; }
+    .burger__menu { display: block; }
+    header { justify-content: space-between; }
+    .cart { grid-template-columns: repeat(1, 1fr); }
 }
-@media screen and (max-width: 700px) {
-    body {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-    header ul button:nth-child(1) {
-        display: none;
-    }
-    .material img {
-        display: none;
-    }
-    .reviews__container {
-        grid-template-columns: 1fr;
-    }
-    .cart {
-        grid-template-columns: repeat(1, 1fr);
-    }
-}
-@media screen and (max-width: 780px) {
-    .catalog__all__tovar__about {
-        display: flex;
-        flex-direction: column;
-    }
 
+/* Адаптация блока .material */
+@media screen and (max-width: 992px) { /* Брейкпоинт, когда карточки могут стать слишком узкими */
+    .material {
+        flex-direction: column; /* Карточки теперь одна под другой */
+        gap: 25px; /* Отступ между карточками в стопке */
+        padding: 20px; /* Уменьшаем отступы самого блока .material */
+    }
+    .material-card {
+        flex-basis: auto; /* Сбрасываем flex-basis */
+        width: 100%; /* Карточки на всю ширину */
+        max-width: 100%; /* Сбрасываем max-width */
+        min-height: 180px; /* Можно немного уменьшить минимальную высоту */
+        padding: 25px;
+    }
+    .material-card__text {
+        font-size: 22px; /* Немного уменьшаем текст на карточках */
+    }
+    .material-card__person-img {
+        width: 100px; /* Уменьшаем изображение мальчика */
+        bottom: 5px;
+        right: 5px;
+    }
 }
+
+
+@media screen and (max-width: 780px) {
+    .catalog__all__tovar__about { display: flex; flex-direction: column; }
+}
+
+/* Маленькие мобильные устройства */
+@media screen and (max-width: 700px) {
+    body { padding-left: 15px; padding-right: 15px; }
+    .burger-menu__button .burger-menu__text { display: none; }
+    .burger-menu__button { padding: 8px 10px; }
+    .burger-menu__button img { margin-right: 0; }
+    .material img { /* Это правило относилось к старому .material img, теперь .material-card__person-img управляется отдельно */
+        /* display: none; - возможно, не нужно, если он внутри карточки и она адаптируется */
+    }
+    .swiper-slide { width: 100%; margin-right: 0; }
+    .reviews__comment { width: 95%; margin-left: auto; margin-right: auto; margin-bottom: 20px; }
+    .cart { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .cart div { padding: 20px; height: auto; min-height: 250px; }
+    .cart div h3 { font-size: 24px; }
+    .cart div p { font-size: 18px; margin-bottom: 60px; }
+    .cart div button { font-size: 18px; padding: 10px 18px; }
+}
+
+@media screen and (max-width: 670px) {
+    .header__logo { width: 120px; }
+}
+
+@media screen and (max-width: 480px) { /* Дополнительный брейкпоинт для очень маленьких экранов */
+    .material-card__text {
+        font-size: 18px;
+    }
+    .material-card__person-img {
+        width: 80px;
+        bottom: 0px;
+        right: 0px;
+    }
+     .material-card {
+        min-height: 150px;
+        padding: 20px;
+    }
+}
+
 @media screen and (max-width: 410px) {
-    .reviews__arrow {
-        position:static;
-    }
-    .cart__img {
-        display: none;
-    }
+    body { padding-left: 10px; padding-right: 10px; }
+    .header__logo { width: 100px; }
+    header button, .burger-menu__button { font-size: 16px; padding: 8px 10px; gap: 5px; }
+    header button img, .burger-menu__button img { height: 20px; }
+    .burger-menu__nav { min-width: 200px; padding: 10px; }
+    .burger-menu__nav a { font-size: 16px; padding: 8px 10px; }
+    .reviews__arrow { position: static; margin-top: 20px; justify-content: center; gap: 15px; }
+    .reviews__arrow img { width: 40px; height: 40px; }
+    .cart__img { display: none; }
+    .cart div { padding: 15px; }
+    .cart div h3 { font-size: 20px; }
+    .cart div p { font-size: 16px; }
+    .cart div button { font-size: 16px; padding: 8px 15px; }
 }

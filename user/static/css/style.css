@@ -3,11 +3,23 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 :root {
     --orange: #F2A879;
+    --teach-lab-orange: #FD7E14;
     --body: #EED6C5;
     --silver: #808080;
+    --white: #ffffff;
+    --black: #000000;
+    --header-button-text: var(--teach-lab-orange);
+    --button-primary-bg: var(--teach-lab-orange);
+    --button-primary-text: var(--white);
+    --button-secondary-bg: var(--white);
+    --button-secondary-text: var(--teach-lab-orange);
+    --card-background: var(--white); /* Фон для новых карточек */
+    --card-text-color: var(--black);
 }
+
 body {
     display: flex;
     flex-direction: column;
@@ -19,105 +31,182 @@ body {
     background: var(--body);
     font-weight: 400;
 }
+
+/* === Общие стили и анимации для всех кнопок === */
+button,
+a.material-card { /* Применяем также к новым карточкам-ссылкам */
+    cursor: pointer;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, filter 0.2s ease-out, background-color 0.2s ease-out;
+    font-family: "M PLUS Rounded 1c", serif;
+    border: none;
+    text-decoration: none;
+    display: inline-flex; /* inline-flex или block/flex в зависимости от контекста */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* Базовые отступы и скругления будут определены ниже для конкретных элементов */
+}
+
+button:hover,
+a.material-card:hover {
+    transform: translateY(-3px) scale(1.02); /* Небольшой подъем и увеличение */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}
+
+button:active,
+a.material-card:active {
+    transform: translateY(0px) scale(1);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* Стили шапки (остаются как в предыдущем ответе) */
+header { /* ... */ }
+.header__logo { /* ... */ }
+/* ... и так далее для всех стилей шапки ... */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px 0;
+    flex-wrap: wrap;
 }
-ul {
+.header__logo {
+    width: 200px;
+    height: auto;
+    display: block;
+}
+.header__nav-items {
     display: flex;
     flex-direction: row;
-    column-gap: 30px;
-}
-header a {
-    font-size: 36px;
-    text-decoration: none;
-    color: black;
-}
-header button {
-    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 24px;
-    color: var(--orange);
-    background-color: white;
-    border-radius: 45px;
-    border: 1px solid white;
-    padding: 12px 17px;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    column-gap: 20px;
 }
-header button img {
-    height: 27px;
-    width: auto;
-}
-.burger__menu {
-    position: relative;
-}
-
-.burger__menu nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: white;
-    width: max-content;
-    height: max-content;
-    padding: 30px;
-    z-index: 9999;
-    border-radius: 45px;
-    border: 1px solid var(--orange);
-}
-
-.burger__menu nav a {
-    display: flex;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--orange);
-    font-size: 20px;
+.header__nav-link {
     text-decoration: none;
-    color: black;
 }
+header button, .burger-menu__button {
+    font-size: 18px;
+    color: var(--button-secondary-text);
+    background-color: var(--button-secondary-bg);
+    border-radius: 30px;
+    padding: 10px 15px;
+    gap: 8px;
+}
+header button:hover, .burger-menu__button:hover {
+     background-color: #f8f8f8;
+     filter: brightness(100%);
+     transform: translateY(-3px); /* Наследуется, но можно переопределить если нужно */
+}
+header button:active, .burger-menu__button:active {
+    background-color: #f0f0f0;
+    filter: brightness(100%);
+    transform: translateY(0px); /* Наследуется */
+}
+header button img { height: 22px; width: auto; }
+.header__basket span { color: var(--teach-lab-orange); }
+.burger__menu { position: relative; display: none; }
+.burger-menu__button img { height: 24px; }
+.burger-menu__text { font-size: 16px; color: var(--button-secondary-text); }
+.burger-menu__nav {
+    display: none; position: absolute; top: calc(100% + 10px); right: 0;
+    background: var(--white); width: max-content; min-width: 220px;
+    padding: 15px; z-index: 1000; border-radius: 15px;
+    border: 1px solid var(--orange); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.burger-menu__nav.is-active { display: block; }
+.burger-menu__nav a {
+    display: block; padding: 10px 15px; font-size: 18px; text-decoration: none;
+    color: var(--black); border-bottom: 1px solid #f0f0f0;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+.burger-menu__nav a:last-child { border-bottom: none; }
+.burger-menu__nav a:hover { color: var(--orange); background-color: #f9f9f9; }
+
+/* Основной контент */
 main {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 20px;
 }
+
+/* === ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ БЛОКА .material === */
 .material {
     display: flex;
+    flex-direction: row; /* Карточки будут в ряд */
+    justify-content: space-around; /* Распределение пространства, можно использовать space-between или gap */
+    gap: 30px; /* Расстояние между карточками */
+    align-items: stretch; /* Карточки будут одинаковой высоты */
+    width: 100%;
+    /* min-height: 322px; - высота будет определяться содержимым или задана для .material-card */
+    background: transparent; /* Фон родительского .material теперь прозрачный или var(--body) */
+    border-radius: 0; /* Убираем скругление с общего контейнера, если карточки будут его формировать */
+    padding: 20px 0; /* Вертикальные отступы для секции .material */
+    margin-top: 30px;
+    margin-bottom: 50px; /* Увеличим отступ снизу */
+}
+
+.material-card {
+    /* Наследует общие стили от 'a.material-card' для анимаций */
+    flex-grow: 1; /* Карточки будут занимать доступное пространство */
+    flex-basis: calc(50% - 15px); /* Примерно половина ширины минус половина gap */
+    max-width: calc(50% - 15px); /* Ограничение максимальной ширины */
+    
+    display: flex; /* Для внутреннего расположения текста и возможной иконки/картинки */
     flex-direction: column;
-    width: 100%;
-    min-height: 322px;
-    background: white;
-    border-radius: 57px;
-    padding-top: 25px;
-    padding-left: 38px;
-    padding-right: 38px;
-    padding-bottom: 20px;
-    position: relative;
+    justify-content: center; /* Центрируем текст по вертикали */
+    align-items: center; /* Центрируем текст по горизонтали */
+    
+    background-color: var(--card-background); /* Белый фон для карточек */
+    color: var(--card-text-color);
+    padding: 30px 25px; /* Внутренние отступы карточки */
+    border-radius: 45px; /* Скругление как у вас было для блока .material */
+    min-height: 200px; /* Минимальная высота карточки */
+    position: relative; /* Для позиционирования изображения мальчика */
+    overflow: hidden; /* Если изображение будет выходить за пределы и это нежелательно */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Легкая тень для карточек */
 }
-.material h3 {
-    font-size: 36px;
+
+.material-card__text {
+    font-size: 26px; /* Увеличим шрифт на карточках */
+    font-weight: 500;
+    line-height: 1.4;
+    /* text-align: center; уже задано через align-items/justify-content на родителе */
 }
-.material__about {
-    margin-top: 10px;
+
+.material-card--decorations {
+    /* Можно добавить специфичные стили для второй карточки, если нужно */
 }
-.material p {
-    font-size: 32px;
-}
-.material img {
-    width: 337px;
-    height: 350px;
+
+.material-card__person-img {
     position: absolute;
-    right: -60px;
-    bottom: 0;
+    width: 130px; /* Размер мальчика на карточке */
+    height: auto;
+    bottom: -10px; /* Немного выступает снизу */
+    right: -20px;  /* Немного выступает справа */
+    transform: scaleX(-1); /* Отражаем мальчика, если он смотрит не в ту сторону */
 }
-.material_line {
-    content: '';
-    border: 1px solid var(--orange);
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 80px;
+
+/* .material_line { display: none; } /* Линия больше не нужна */
+/* .material__about { display: none; } /* Старый контейнер больше не нужен */
+
+
+/* Стили для .reviews, .cart, footer и т.д. остаются как были */
+.cart div button {
+    background: var(--button-primary-bg);
+    color: var(--button-primary-text);
+    border-radius: 45px;
+    font-size: 24px;
+    padding: 5px 22px;
 }
+.cart div button:hover {
+    filter: brightness(115%);
+}
+
+/* Остальные стили из вашего style.css (reviews, swiper, footer и т.д.) */
 .reviews {
     display: flex;
     background: white;
@@ -132,117 +221,27 @@ main {
     flex-direction: column;
     position: relative;
 }
-.reviews img {
-    width: 53px;
-    height: 53px;
-}
-.reviews h3 {
-    font-size: 32px;
-    color: var(--orange);
-}
-.reviews p {
-    font-size: 24px;
-}
-.reviews__arrow {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    top: 90px;
-    right: 50px;
-}
-.reviews__container {
-    display: flex;
-    flex-direction: row;
-    margin-top: 40px;
-    column-gap: 27px;
-}
-.swiper {
-    width: 100%;
-    overflow: hidden;
-}
-
-.swiper-wrapper {
-    display: flex;
-}
-
-.swiper-slide {
-    flex-shrink: 0;
-    width: calc(100% / 3 - 20px);
-    box-sizing: border-box;
-}
-
-.reviews__arrow img {
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-}
+.reviews img { width: 53px; height: 53px; }
+.reviews h3 { font-size: 32px; color: var(--orange); }
+.reviews p { font-size: 24px; }
+.reviews__arrow { display: flex; flex-direction: row; position: absolute; top: 90px; right: 50px; }
+.reviews__container { margin-top: 40px; }
+.swiper { width: 100%; overflow: hidden; }
+.swiper-wrapper { display: flex; }
+.swiper-slide { flex-shrink: 0; box-sizing: border-box; }
+.reviews__arrow img { cursor: pointer; width: 50px; height: 50px; }
 .reviews__comment {
-    background: white;
-    border: 1px solid var(--orange);
-    padding-top: 17px;
-    padding-left: 25px;
-    padding-bottom: 30px;
-    padding-right: 10px;
-    border-radius: 45px;
-    width: 425px;
+    background: white; border: 1px solid var(--orange); padding-top: 17px; padding-left: 25px;
+    padding-bottom: 30px; padding-right: 10px; border-radius: 45px; box-sizing: border-box;
 }
-.reviews_comment__user {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.reviews_comment__user h3 {
-    display: flex;
-    font-size: 24px;
-    color: black;
-    margin-left: 20px;
-}
-.reviews_comment__user img {
-    width: 50px;
-    height: 50px;
-}
-footer {
-    display: flex;
-    flex-direction: column;
-    margin-top: 250px;
-}
-footer h3 {
-    font-size: 36px;
-}
-.footer__page {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 50px;
-    justify-content: space-between;
-}
-.footer__page a {
-    font-size: 24px;
-    color: var(--silver);
-    text-decoration: none;
-}
-.footer__line {
-    display: flex;
-    border: 1px solid var(--orange);
-    margin-top: 20px;
-}
-.footer__text {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-    padding-bottom: 30px;
-}
-.footer__text p {
-    font-size: 24px;
-    color: var(--silver);
-}
-.footer__text img {
-    width: 50px;
-    height: 50px;
-}
-button:hover {
-    transition: 0.5s, ease-in-out;
-    margin-top: 10px;
-}
+.reviews_comment__user { display: flex; flex-direction: row; align-items: center; }
+.reviews_comment__user h3 { display: flex; font-size: 24px; color: black; margin-left: 20px; }
+.reviews_comment__user img { width: 50px; height: 50px; border-radius: 50%; }
+footer { display: flex; flex-direction: column; margin-top: 250px; }
+footer h3 { font-size: 36px; }
+.footer__page { display: flex; flex-direction: row; flex-wrap: wrap; margin-top: 50px; justify-content: space-between; }
+.footer__page a { font-size: 24px; color: var(--silver); text-decoration: none; }
+.footer__line { display: block; border-top: 1px solid var(--orange); margin-top: 20px; }
+.footer__text { display: flex; flex-direction: row; justify-content: center; align-items: center; margin-top: 30px; padding-bottom: 30px; }
+.footer__text p { font-size: 24px; color: var(--silver); }
+.footer__text img { width: 50px; height: 50px; }
